@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Firebase
+import Crashlytics
+
 
 class ViewController: UIViewController {
 
@@ -19,8 +22,25 @@ class ViewController: UIViewController {
     
     @IBAction func numeroButtonAction(_ sender: Any) {
         
-        let number = Int.random(in: 0 ... 1000)
+        let number = Int.random(in: 0 ... 11)
         numeroLabel.text = String(number)
+        
+        //Firebas Analytics
+        Analytics.logEvent("Botón de número Random", parameters: ["Botón": "uno", "número": number])
+        
+       
+        // Si el valor es igual a 11 crash
+        if number == 11 {
+        Crashlytics.sharedInstance().setIntValue(11, forKey: "Se dio el número 11")
+        }
+    }
+    
+    
+    @IBAction func crashButtonAction(_ sender: UIButton) {
+    
+        // Se fuerza crash para prueba Charshlytics
+        Crashlytics.sharedInstance().crash()
+        
     }
     
 
